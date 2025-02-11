@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"secret-keeper/internal/config"
 )
 
 // go run -ldflags "-X main.buildVersion=v1.0.1 -X 'main.buildDate=$(date +'%Y/%m/%d %H:%M:%S')' -X main.buildCommit=hello world" main.go
@@ -29,7 +30,7 @@ func formatValue(buildData string) string {
 
 func main() {
 	printBuildInfo()
-	cfg := config.ParseOptions()
+	cfg := config.Parse()
 	a, err := app.NewApp(cfg)
 	if err != nil {
 		log.Fatalf("failed to init app: %s", err.Error())
