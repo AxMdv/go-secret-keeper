@@ -14,8 +14,8 @@ const (
 
 	logLvlName = "LOG_LEVEL"
 
-	tokenTTLMinutesName = "TOKEN_TTL_MINUTES"
-	secretJWTName       = "SECRET_JWT"
+	tokenTTLMinutesName = "TOKEN_TTL_MIN"
+	secretJWTName       = "JWT_SECRET_KEY"
 )
 
 type Config struct {
