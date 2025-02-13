@@ -11,7 +11,7 @@ type IKeeper interface {
 	GetUserStoredData(ctx context.Context, userLogin string) (userData model.AllUserData, err error)
 	UpdateLoginPassword(ctx context.Context, loginPass model.LoginPassword) error
 	UpdateTextData(ctx context.Context, textData model.TextData) error
-	UpdateBankCard(ctx context.Context, card model.TextData) error
+	UpdateBankCard(ctx context.Context, card model.BankCard) error
 	UpdateBinaryData(ctx context.Context, binData model.BinaryData) error
 	DeleteStoredData(ctx context.Context, dataType string, id string) error
 }

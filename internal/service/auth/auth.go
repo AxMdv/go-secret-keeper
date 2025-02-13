@@ -28,7 +28,7 @@ type Claims struct {
 }
 
 // BuildJWTString создаёт токен и возвращает его в виде строки.
-func (as *AuthService) BuildJWT(userID string) (string, error) {
+func (as *AuthService) CreateJWT(userID string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, Claims{
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(as.tokenTTLInMinutes)),
@@ -77,7 +77,7 @@ func SetUserID(ctx context.Context, userID string) context.Context {
 }
 
 // GetUserID returns user ID from context.
-func GetUserID(ctx context.Context) (userID string) {
-	userID = ctx.Value(requestContextUserIDValue{}).(string)
+func (as *AuthService) UserLoginFromCtx(ctx context.Context) (userLogin string) {
+	userLogin = ctx.Value(requestContextUserIDValue{}).(string)
 	return
 }

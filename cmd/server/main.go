@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"secret-keeper/internal/app"
 	"secret-keeper/internal/config"
 )
 
@@ -30,8 +31,11 @@ func formatValue(buildData string) string {
 
 func main() {
 	printBuildInfo()
-	cfg := config.Parse()
-	a, err := app.NewApp(cfg)
+	cfg, err := config.Parse()
+	if err != nil {
+		log.Fatalf("failed to parse config app: %s", err.Error())
+	}
+	a, err := app.New(*cfg)
 	if err != nil {
 		log.Fatalf("failed to init app: %s", err.Error())
 	}
@@ -40,4 +44,5 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to run app: %s", err.Error())
 	}
+	log.Println("app exited properly")
 }

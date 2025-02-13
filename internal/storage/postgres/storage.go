@@ -4,8 +4,6 @@ import (
 	"context"
 	"time"
 
-	"secret-keeper/internal/config"
-
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -13,8 +11,8 @@ type PostgresStorage struct {
 	db *pgxpool.Pool
 }
 
-func NewDBRepository(config *config.Config) (*PostgresStorage, error) {
-	pool, err := pgxpool.New(context.Background(), config.DataBaseDSN)
+func NewPostgresStorage(dsn string) (*PostgresStorage, error) {
+	pool, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {
 		return nil, err
 	}
@@ -32,6 +30,10 @@ func NewDBRepository(config *config.Config) (*PostgresStorage, error) {
 		return nil, err
 	}
 	return &dbRepository, nil
+}
+
+func (ps *PostgresStorage) Close() {
+	ps.db.Close()
 }
 
 func (ps *PostgresStorage) createDB(ctx context.Context) error {

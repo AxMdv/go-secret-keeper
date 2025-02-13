@@ -11,6 +11,12 @@ type KeeperService struct {
 	Storage IStorage
 }
 
+func NewKeeperService(storage IStorage) *KeeperService {
+	return &KeeperService{
+		Storage: storage,
+	}
+}
+
 func (ks *KeeperService) RegisterUser(ctx context.Context, user model.User) (err error) {
 	err = ks.Storage.CreateUser(ctx, user)
 	if errors.Is(err, storage.ErrDuplicate) {
@@ -26,7 +32,7 @@ func (ks *KeeperService) AuthUser(ctx context.Context, user model.User) (authed 
 		if errors.Is(err, storage.ErrNotExist) {
 			return false, ErrNotExist
 		}
-		return false, err
+		return false, NewUnexpectedError(err, "unexpected error")
 	}
 	if storedUser.Password == user.Password {
 		return true, nil
