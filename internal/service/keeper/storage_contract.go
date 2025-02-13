@@ -12,7 +12,7 @@ type IStorage interface {
 	// CreateLoginPassword(ctx context.Context, loginPass model.LoginPassword) (err error)
 	// GetLoginPassword(ctx context.Context, id string) (loginPass model.LoginPassword, err error)
 	UpdateLoginPassword(ctx context.Context, loginPass model.LoginPassword) (err error)
-	DeleteLoginPassword(ctx context.Context, login string) (err error)
+	DeleteLoginPassword(ctx context.Context, id string) (err error)
 	// CreateTextData(ctx context.Context, textData model.TextData) (err error)
 	// GetTextData(ctx context.Context, id string) (textData model.TextData, err error)
 	UpdateTextData(ctx context.Context, textData model.TextData) (err error)
