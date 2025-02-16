@@ -1,0 +1,7 @@
+{
+    "database_dsn": "",
+    "enable_https": false,
+    "grpc_server_address": ":8090",
+    "log_level": "debug",
+    "tokenTTLInMinutes": 600
+} 

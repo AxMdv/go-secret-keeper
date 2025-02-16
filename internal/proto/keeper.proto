@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package keeper;
+option go_package = "go-secret-keeper/internal/proto";
+
+
+import "google/protobuf/empty.proto";
+// cd internal
+// protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative proto\keeper.proto
+service SecretKeeper {
+	rpc RegisterUser(RegisterUserRequest)returns(RegisterUserResponse);
+	rpc AuthUser(AuthUserRequest)returns(AuthUserResponse);
+	rpc GetUserStoredData(google.protobuf.Empty)returns(GetUserStoredDataResponse);
+	// rpc GetListStoredData(GetListStoredDataRequest)returns(GetListStoredDataResponse);
+	// rpc GetPasswordByLogin(GetPasswordByLoginRequest)returns(GetPasswordByLoginResponse);
+	// rpc GetTextData(GetTextDataRequest)returns(GetTextDataResponse);
+	// rpc GetBankCardByNumber(GetBankCardByNumberRequest)returns(GetBankCardByNumberResponse);
+	// rpc GetBinaryData(GetBinaryDataRequest)returns(GetBinaryDataResponse);
+
+	// rpc UpdateStoredData(UpdateStoredDataRequest)returns(google.protobuf.Empty);
+	rpc UpdateLoginPassword(UpdateLoginPasswordRequest)returns(google.protobuf.Empty);
+	rpc UpdateTextData(UpdateTextDataRequest)returns(google.protobuf.Empty);
+	rpc UpdateBankCard(UpdateBankCardRequest) returns(google.protobuf.Empty);
+	rpc UpdateBinaryData(UpdateBinaryDataRequest)returns(google.protobuf.Empty);
+	rpc DeleteStoredData(DeleteStoredDataRequest)returns(google.protobuf.Empty);
+}
+
+
+
+message RegisterUserRequest {
+	string user_login = 1;
+	string user_password = 2;
+}
+
+message RegisterUserResponse {
+	string token_jwt = 1;
+}
+
+message AuthUserRequest{
+	string user_login = 1;
+	string user_password = 2;
+}
+
+message AuthUserResponse {
+	string token_jwt = 1;
+}
+
+// Get data
+message GetUserStoredDataResponse {
+	repeated LoginPassword loginPasswords = 1;
+	repeated TextData textData = 2;
+	repeated BinaryData binaryData = 3;
+	repeated BankCard bankCards = 4;
+}
+// Updates 
+message UpdateLoginPasswordRequest{
+	LoginPassword loginPassword = 1;
+}
+
+message UpdateTextDataRequest{
+	TextData textData = 1;
+}
+
+message UpdateBinaryDataRequest {
+	BinaryData binaryData = 1;
+}
+
+message UpdateBankCardRequest{
+	BankCard bankCard = 1;
+}
+
+message DeleteStoredDataRequest{
+	enum DataType {
+		LOGIN_PASS = 0;
+		TEXT = 1;
+		BINARY = 2;
+		BANK_CARD = 3;
+	}
+	DataType dataType = 1;
+	string id = 2;
+}
+
+message BankCard {
+	sint64 number = 1;
+	string owner_name = 2;
+	string exp_date = 3;
+	sint64 cvv = 4;
+};
+
+message TextData {
+	string id = 1;
+	string data = 2;
+	string metadata = 3;
+};
+
+message BinaryData {
+	string id = 1;
+	bytes data = 2;
+	string metadata = 3;
+};
+
+message LoginPassword {
+	string id = 1;
+	string login = 2;
+	string password = 3;
+	string metadata = 4;
+}
